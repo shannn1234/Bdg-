@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wingo Predictor</title>
+</head>
+<body>
+  <h3>Wingo Color Prediction (1-Minute)</h3>
+  <input type="text" id="colors" placeholder="Red,Green,Red" />
+  <button onclick="predict()">Predict</button>
+  <h3 id="result"></h3>
+
+  <script>
+    async function predict() {
+      const input = document.getElementById("colors").value;
+      const history = input.split(",").map(c => c.trim());
+
+      const res = await fetch("https://your-backend-url.cyclic.app/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ history })
+      });
+
+      const data = await res.json();
+      document.getElementById("result").innerText = "Prediction: " + data.prediction;
+    }
+  </script>
+</body>
+</html>
